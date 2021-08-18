@@ -1,0 +1,18 @@
+/start ext_tsk
+/if mtxid が0ではない？
+mtxid のmcb アドレスを算出
+/while
+tskid をクリア
+prev をクリア
+next をクリア
+next のmcb アドレスを算出
+mcb のtskid をロード
+/end tskid が0ではない？
+/else
+/end
+レディ・キューから自準タスクを削除
+ベース優先度を初期優先度に設定
+現在優先度を初期優先度に設定
+起床待ち要求数を0クリア
+強制待ち要求セスト数を0クリア
+/stop _t_Scheduler へジャンプ

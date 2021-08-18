@@ -1,0 +1,15 @@
+14:36:31 **** インクリメンタル・ビルド of configuration Debug for project SSF-OS_Sample_Project ****
+make all 
+'Building file: ../src/SSF-OS_Sample_Project.c'
+'Invoking: Cross GCC Compiler'
+arm-linux-gnueabihf-gcc -I../../../inc -O0 -g3 -Wall -c -fmessage-length=0 -gdwarf-2 -MMD -MP -MF"src/SSF-OS_Sample_Project.d" -MT"src/SSF-OS_Sample_Project.o" -o "src/SSF-OS_Sample_Project.o" "../src/SSF-OS_Sample_Project.c"
+'Finished building: ../src/SSF-OS_Sample_Project.c'
+' '
+'Building target: SSF-OS_Sample_Project'
+'Invoking: Cross GCC Linker'
+arm-linux-gnueabihf-gcc -nostartfiles -nodefaultlibs -nostdlib -static -L../../../obj -T ../../../conf/link.lds -o "SSF-OS_Sample_Project"  ./src/SSF-OS_Sample_Project.o  ../../../obj/boot.o ../../../obj/interrupt.o ../../../obj/stack.o ../../../conf/entry.o ../../../conf/sbt.o ../../../conf/sct.o ../../../conf/sit.o -lfos
+'Finished building target: SSF-OS_Sample_Project'
+' '
+
+14:36:36 Build Finished. 0 errors, 0 warnings. (経過 5s.348ms)
+

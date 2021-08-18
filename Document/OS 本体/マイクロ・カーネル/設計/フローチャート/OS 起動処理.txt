@@ -1,0 +1,22 @@
+/start OS 起動処理  (引数：AppMode)
+/loop
+初期化関数ポインタ配列から1つ関数を取得
+/if 関数ポインタがnull？
+/else
+/define 初期化ルーチンを実行 (メモリ・プール/リソース/ミューテックス/データ・キュー/メールボックス/メッセージ・バッファ)
+/back
+/repeat
+/define SBT 初期化処理
+/define レディ・バッファ初期化処理(バッファ領域の確保と初期化)
+/loop
+/define TCB 初期化処理
+/repeat
+/define レディ・キュー初期化処理(キュー領域の確保と初期化)
+/loop
+/define CTCB 初期化処理
+/repeat
+/define 割り込み管理領域初期化処理(管理領域の確保と初期化)
+/loop
+/define ICB 初期化
+/repeat
+/end スケジューラ起動

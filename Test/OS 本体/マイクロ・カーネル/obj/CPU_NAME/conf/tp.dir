@@ -1,0 +1,50 @@
+#
+# V850ES サンプル リンク・ディレクティブ・ファイル
+#
+
+SCONST  : !LOAD ?R {
+        .sconst         = $PROGBITS     ?A .sconst;
+};
+
+CONST   : !LOAD ?R {
+        .const          = $PROGBITS     ?A .const;
+};
+
+TEXT    : !LOAD ?RX {
+        .pro_epi_runtime = $PROGBITS    ?AX .pro_epi_runtime;
+        .text            = $PROGBITS    ?AX .text;
+};
+
+ROMPSEC : !LOAD ?RX {
+        .rompsec         = $PROGBITS    ?AX .rompsec;
+};
+
+DATA    : !LOAD ?RW V0x100000 {
+        .data           = $PROGBITS     ?AW  .data;
+        .sdata          = $PROGBITS     ?AWG .sdata;
+        .sbss           = $NOBITS       ?AWG .sbss;
+        .bss            = $NOBITS       ?AW  .bss;
+};
+
+TPDATA    : !LOAD ?RW V0x108000 {
+        .tpdata         = $NOBITS       ?AW  .tpdata;
+};
+
+SEDATA    : !LOAD ?RW V0x3ff0000 {
+        .sedata         = $PROGBITS     ?AW .sedata;
+        .sebss          = $NOBITS       ?AW .sebss;
+        .stack          = $NOBITS       ?AW .stack;
+};
+
+SIDATA  : !LOAD ?RW V0x3ff8000 {
+        .tidata.byte    = $PROGBITS     ?AW .tidata.byte;
+        .tibss.byte     = $NOBITS       ?AW .tibss.byte;
+        .tidata.word    = $PROGBITS     ?AW .tidata.word;
+        .tibss.word     = $NOBITS       ?AW .tibss.word;
+        .sidata         = $PROGBITS     ?AW .sidata;
+        .sibss          = $NOBITS       ?AW .sibss;
+};
+
+__tp_TEXT @ %TP_SYMBOL;
+__gp_DATA @ %GP_SYMBOL &__tp_TEXT{DATA TPDATA};
+__ep_DATA @ %EP_SYMBOL;

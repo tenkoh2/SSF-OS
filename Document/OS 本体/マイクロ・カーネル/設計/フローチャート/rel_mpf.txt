@@ -1,0 +1,24 @@
+/start rel_mpf
+/if ID は正しい？
+/else
+/stop E_ID
+/end
+/if blk が0ではない？
+/else
+/stop E_PAR
+/end
+/if 待ちタスクがない？
+メモリ・ブロックキューの先頭にメモリ・ブロックをつなぐ
+/else
+待ちキューの先頭タスクを待ちキューから外す
+/if 待ちキューが空になった？
+キュー・トップを0にする
+/else
+キュー・トップ更新
+/end
+/define _regist_rdyque
+スケジュール・フラグを立てる
+スタックからr1を取り出す
+r1の指し示すアドレスへメモリ・ブロックのアドレスを格納する
+/end
+/stop E_OK

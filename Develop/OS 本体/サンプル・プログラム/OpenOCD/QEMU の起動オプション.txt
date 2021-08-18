@@ -1,0 +1,1 @@
+qemu-system-arm -kernel C:\SysGCC\raspberry\bin\SSF-OS_Sample_Project.elf -cpu cortex-a8 -M raspi2 -m 256 -no-reboot -nographic -monitor null -serial stdio -s -S

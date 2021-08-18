@@ -1,0 +1,21 @@
+/start rel_mpl
+/if ID は正しい？
+/else
+/stop E_ID
+/end
+/if blk が0ではない？
+/else
+/stop E_PAR
+/end
+/define 可変長メモリ・プール解放処理
+/if 待ちキューにタスクがある？
+/define 可変長メモリ・プール獲得処理
+/if 失敗？
+/else
+待ちキューから対象タスクを外す
+/define _regist_readyqueue
+/define _delete_timque
+/end
+/else
+/end
+/stop E_OK

@@ -1,0 +1,235 @@
+・Trusted/Non-Trusted の区別
+・特権/非特権の区別
+・
+
+typedef struct sbt_st {
+	unsigned char	schreq:1;	// スケジュール要求フラグ
+	unsigned char	disdsp:1;	// ディスパッチ禁止/許可状態
+	unsigned char	syslvl:3;	// システム・レベル
+	unsigned char	intnst:3;	// 割り込みネスト・レベル
+} SBT_st;
+
+typedef struct t_sbt {
+	union sch {
+		SBT_st	sts;
+		char	sch_ena;	// スケジューラ起動フラグ (0ならスケジューラ起動)
+	};
+	unsigned char	highest_tsk;	// 最高優先度
+	unsigned short	syssts;		// システム・ステータス
+	unsigned int	primap;		// 優先度マップ
+	unsigned int	sysmplsz;	// システム・メモリ・プール・サイズ
+	void		*sysmpl_head;	// システム・メモリ・プールの先頭アドレス
+	unsigned int	mplsz;		// 可変長メモリ・プール・サイズ
+	void		*mpl_head;	// 可変長メモリ・プールの先頭アドレス
+	unsigned int	mpfsz;		// 固定長メモリ・プール・サイズ
+	void		*mpf_head;	// 固定長メモリ・プールの先頭アドレス
+	void		*sysstk;	// システム・スタック
+	unsigned short	runtsk;		// 実行中タスクID
+	unsigned short	runapp;		// 実行中アプリケーションID
+	char		sch_c_ena;	// 準タスクのスケジューラ起動フラグ (0ならスケジューラ起動)
+	unsigned char	highest_ctsk;	// 準タスク最高優先度
+	unsigned short	runctsk;	// 実行中準タスクID
+	unsigned int	cprimap;	// 準タスク優先度マップ
+	unsigend int	disallmsk;	// 割り込み状態(DisableAllInterrupts/EnableAllInterrupts 用)
+	unsigend int	idmsk;		// 割り込み状態(SuspendAllInterrupts/ResumeAllInterrupts 用)
+	unsigend int	intmsk;		// 割り込み状態(SuspendOSInterrupts/ResumeOSInterrupts 用)
+} T_SBT;
+
+typedef struct t_sit {
+	unsigned char	hook;		// 使用フック・ルーチン(ビットマップ)
+	unsigned char	tsknum;		// タスク数
+	unsigned char	ctsknum;	// 準タスク数
+	unsigned char	rfu1;		// 予約領域
+	unsigned int	tintfact	// タイマ割り込み要因
+	unsigend int	isysmplsz;	// 初期システム・メモリ・プール・サイズ
+	void		*isysmpl_head;	// 初期システム・メモリ・プール先頭アドレス
+	unsigned int	implsz;		// 初期可変長メモリ・プール・サイズ
+	void		*impl_head;	// 初期可変長メモリ・プール先頭アドレス
+	unsigned int	impfsz;		// 初期固定長メモリ・プール・サイズ
+	void		*impf_head;	// 初期固定長メモリ・プール先頭アドレス
+	void		*isysstk;	// 初期システムスタック
+} T_SIT;
+
+typedef struct t_acb {
+	unsigned int	mplsz		// アプリケーションのメモリ空間サイズ
+	void		*mpl_head;	// アプリケーションのメモリ空間先頭アドレス
+} T_ACB;
+
+typedef struct t_aib {
+	unsigned int	hoook;		// 起動するフック・ルーチン
+	unsigned int	implsz;		// アプリケーションの初期メモリ・プール・サイズ
+	void		*impl_head	// アプリケーションの初期メモリ・プール先頭アドレス
+} T_AIB;
+
+typedef struct t_id {
+	unsigned short	id;		// ID
+	unsigned char	kind;		// 資源種別
+	unsigned char	core_id;	// コアID
+} T_ID;
+
+typedef struct t_ID {
+	union id {
+		T_ID	comp_id;	// 複合ID
+		unsigned int	ID;	// ID
+	};
+} t_ID;
+
+typedef struct t_tib {
+	unsigned char	atr;		// タスク属性 (スケジュール属性 (NON/FULL)を含む)
+	unsigned char	ipri;		// 初期優先度
+	unsigned char	appmode;	// アプリケーション・モード (ビットマップで持つことにする)
+	unsigned char	rfu1;		// 予約領域
+	t_ID		ires;		// インターナル・リソースID
+	unsigned int	actcnt;		// 最大起動数
+	unsigned int	time;		// 保護時間
+	int		exinf;		// タスク起動時引数
+	void		(*task)(void);	// タスク起動アドレス
+	void		*istack;	// 起動時スタック・アドレス
+	t_ID		appid;		// アプリケーションID
+} T_TIB;
+
+typedef struct t_ctib {
+	unsigned char	atr;		// タスク属性 (スケジュール属性 (NON/FULL)を含む)
+	unsigned char	ipri;		// 初期優先度
+	unsigned short	rfu1;		// 予約領域
+	unsigned int	actcnt;		// 最大起動数
+	int		exinf;		// タスク起動時引数
+	void		(*task)(void);	// タスク起動アドレス
+	void		*istack;	// 起動時スタック・アドレス
+} T_CTIB;
+
+typedef struct t_iib {
+	unsigned char	atr;		// 割り込みハンドラ属性 (カテゴリ1/カテゴリ2)
+	unsigned char	rfu1;		// 予約領域
+	unsigned short	rfu2;		// 予約領域
+	void		(*isr)(void);	// 割り込みハンドラ起動アドレス
+} T_IIB;
+
+typedef struct t_tcb {
+	unsigned char	sts;		// タスク状態
+	unsigned char	actcnt;		// 起動カウント
+	unsigned char	pri;		// 現在優先度
+	unsigned char	res;		// 先頭の所有リソース
+	void		*stack;		// スタック・アドレス(プリエンプト時のコンテキスト・ポインタ)
+	unsigned int	cpsr;		// CPSR レジスタ
+	t_ID		appid;		// アプリケーションID
+	unsigned int	event;		// イベント
+	unsigned int	waievent;	// 待ちイベントのパターン
+} T_TCB;
+
+typedef struct t_ctcb {
+	t_ID		tprev;		// タイマ・キュー環状リンク用タスクID
+	t_ID		tnext;		// タイマ・キュー環状リンク用タスクID
+	unsigned int	waitick;	// 待ち時間
+	unsigned char	sts;		// タスク状態
+	unsigned char	actcnt;		// 起動カウント
+	unsigned char	slpcnt;		// スリープ・ネスト数
+	unsigned char	suscnt;		// サスペンド・ネスト数
+	unsigned char	pri;		// 現在優先度
+	unsigned char	bpri;		// ベース優先度
+	unsigned short	rfu;		// 予約領域
+	ER		rtnprm;		// サービス・コール戻り値
+	unsigned int	taskwait;	// 待ち要因
+	t_ID		wobjid;		// 待ちオブジェクトID
+	int		stacd;		// sta_tsk による起動コード
+	void		*stack;		// スタック・アドレス(プリエンプト時のコンテキスト・ポインタ)
+	unsigned int	cpsr;		// CPSR レジスタ
+	t_ID		mtxid;		// ロックしているミューテックスID(先頭ID)
+	t_ID		prev;		// 環状リンク用タスクID
+	t_ID		next;		// 環状リンク用タスクID
+} T_CTCB;
+
+typedef struct t_rdybuf {
+	unsigned short	widx;		// ライト・インデックス
+	unsigned short	ridx;		// リード・インデックス
+	unsigend int	bufsize;	// レディ・バッファ・サイズ
+	unsigned char	*rdybuf;	// レディ・バッファ・アドレス
+} T_RDYBUF;
+
+typedef struct t_rdybufinf {
+	unsigned int	bufsize;	// レディ・バッファ・サイズ
+	unsigned char	*rdybuf;	// レディ・バッファ・アドレス
+} T_RDYBUFINF;
+
+typedef struct t_mpl {
+	unsigned long	size;		// メモリ・ブロックのサイズ
+	void		*next;		// 次のメモリ・ブロック・アドレス
+} T_MPL;
+
+typedef struct t_seminf {
+	unsigned char	atr;		// セマフォ属性
+	unsigned char	rfu1;		// 予約領域
+	unsigned short	rfu2;		// 予約領域
+	unsigned int	isemcnt;	// 初期資源数
+	unsigned int	maxsem;		// 最大資源数
+} T_SEMINF;
+
+typedef struct t_semctrl {
+	t_ID		wtskid;		// 待ちタスクID
+	unsigned int	semcnt;		// 資源数
+}
+
+typedef struct t_rib {
+	unsigned char	atr;		// リソース属性
+	unsigned char	ceilpri;	// シーリング・プライオリティ
+} T_RIB;
+
+typedef struct t_rcb {
+	t_ID		tid;		// リソースを獲得しているタスクのID
+	t_ID		rid;		// 次のリソースID
+} T_RCB;
+
+typedef struct t_mib {
+	unsigned short	mtxatr;		// ミューテックス属性
+	unsigned short	ceilpri;	// 上限優先度
+} T_MIB;
+
+typedef struct t_mcb {
+	t_ID		tskid;		// ミューテックスをロックしている準タスクのID
+	t_ID		prev;		// 環状リンク用ミューテックスID
+	t_ID		next;		// 環状リンク用ミューテックスID
+} T_MCB;
+
+typedef struct t_mbfinf {
+	unsigned char	mbfatr;		// メッセージ・バッファ属性
+	unsigned char	rfu1;		// 予約領域
+	unsigned short	rfu2;		// 予約領域
+	unsigned int	maxmsz;		// メッセージの最大サイズ
+	unsigned int	mbfsz;		// メッセージ・バッファ領域のサイズ
+	void		*mbf;		// メッセージ・バッファの先頭アドレス
+} T_MBFINF;
+
+typedef struct t_mbfctrl {
+	t_ID		stskid;		// 送信待ちタスクID
+	t_ID		rtskid;		// 受信待ちタスクID
+	unsigned int	smsgcnt;	// メッセージ数
+	unsigned int	fmbfsz;		// 空き領域サイズ
+} T_MBFCTRL;
+
+typedef struct t_mpfinf {
+	unsigned char	mpfatr;		// 固定長メモリ・プール属性
+	unsigned char	rfu1;		// 予約領域
+	unsigned short	rfu2;		// 予約領域
+	unsigned int	blkcnt;		// メモリ・ブロック数
+	unsigned int	blksz;		// メモリ・ブロック・サイズ
+	void		*mpf;		// 固定長メモリ・プールの先頭アドレス
+} T_MPFINF
+
+typedef struct t_mpfctrl {
+	t_ID		wtskid;		// 待ちタスクID
+	unsigned int	fblkcnt;	// 空きメモリ・ブロック数
+} T_MPFCTRL;
+
+typedef struct t_mplinf {
+	unsigend char	mplatr;		// 可変長メモリ・プール属性
+	unsigned char	rfu1;		// 予約領域
+	unsigned short	rfu2;		// 予約領域
+	unsigned int	mplsz;		// 可変長メモリ・プールのサイズ
+	void		*mpl;		// 可変長メモリ・プールの先頭アドレス
+} T_MPL;
+
+typedef struct t_mplctrl {
+	t_ID		wtskid;		// 待ちタスクID
+	unsigned	fmplsz;		// 空き領域の合計サイズ
+	unsigned	fblksz;		// 獲得可能な最大メモリ・ブロック・サイズ
+} T_MPLCTRL;

@@ -1,0 +1,47 @@
+/start tloc_mtx
+/if IDが正しい？
+/else
+/stop E_ID
+/end
+/if tmout が-1以上？
+/else
+/stop E_PAR
+/end
+/if 発行準タスクがミューテックスをロックしていない？
+/else
+/stop E_ILUSE
+/end
+/if 対象ミューテックスがTA_CEILING属性？
+/if 発行タスクのベース優先度が上限優先度以下？
+/else
+/stop E_ILUSE
+/end
+/else
+/end
+/if 対象ミューテックスがロックされていない？
+ミューテックスのロック処理
+/if 対象ミューテックスがTA_CEILING属性？
+/if 準タスクの現在優先度が上限優先度より低い？
+/define レディ・キューから削除
+タスクの現在優先度を引き上げる
+/define レディ・キューへの登録
+/else
+/end
+/else
+/end
+/else
+準タスクをWAITING状態へ遷移させる
+/define 待ちキューへの登録処理(TA_TPRI の場合はキュー・サーチを呼ぶ)
+/define レディ・キューからの削除
+/if 対象ミューテックスがTA_INHERIT属性？
+/if 対象ミューテックスをロックしている準タスクの現在優先度が発行準タスクの現在優先度よりも低い？
+/define 優先度変更処理
+/else
+/end
+/else
+/end
+/define __Scheduler
+u4_ctcb_rtnprm をロード
+/stop
+/end
+/stop E_OK

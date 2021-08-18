@@ -1,0 +1,7 @@
+connections/org.eclipse.remote.telnet.core.connectionType/192.168.1.2/telnet.hostname.attr=192.168.1.2
+connections/org.eclipse.remote.telnet.core.connectionType/192.168.1.2/telnet.port.attr=23
+connections/org.eclipse.remote.telnet.core.connectionType/192.168.1.2/telnet.timeout.attr=0
+connections/org.eclipse.remote.telnet.core.connectionType/localhost/telnet.hostname.attr=localhost
+connections/org.eclipse.remote.telnet.core.connectionType/localhost/telnet.port.attr=4444
+connections/org.eclipse.remote.telnet.core.connectionType/localhost/telnet.timeout.attr=0
+eclipse.preferences.version=1

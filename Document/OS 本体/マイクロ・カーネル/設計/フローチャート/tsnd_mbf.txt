@@ -1,0 +1,59 @@
+/start tsnd_mbf
+/if ID は正しい？
+/else
+/stop E_ID
+/end
+/if msg が0ではない？
+/else
+/stop E_PAR
+/end
+/if msgsz が0ではない？
+/else
+/stop E_PAR
+/end
+/if tmout が-1 以上？
+/else
+/stop E_PAR
+/end
+メッセージ・バッファ管理ブロックのアドレスを生成
+メッセージ・バッファ情報ブロックのアドレスを生成
+メッセージ・バッファ・サイズをロード
+/if メッセージ・バッファ・サイズがmsgsz+4 以上？
+情報ブロックから先頭アドレスとサイズをロードし、バッファの終端アドレスを生成
+メッセージ・バッファ管理ブロックからメッセージ・バッファの送信アドレスをロード
+msgsz をストア
+/if メッセージ・バッファの最後まで使った？
+先頭に戻す
+/else
+/end
+/while
+バッファにメッセージを1バイトストア
+/if メッセージ・バッファの最後まで使った？
+先頭に戻す
+/else
+/end
+/end メッセージを最後までコピーしていない？
+メッセージ数をインクリメント
+メッセージ送信アドレスを更新
+/else
+/if TMO_POL
+/stop E_TMOUT
+/else
+/end
+メッセージ・バッファ属性をロード
+/if TA_TFIFO?
+待ちキューの最後尾に自準タスクをつなぐ
+/else
+/define _que_search
+/end
+msg, msgsz をタスク・スタックに積む
+/if TMO_FEVR?
+/else
+タイマ・キューに自準タスクをつなぐ
+/end
+/define _Scheduler
+u4_ctcb_rtnprm をロード
+msg, msgsz をタスク・スタックからpop
+/stop _ServiceCallExit
+/end
+/stop E_OK

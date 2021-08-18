@@ -1,0 +1,39 @@
+/start tget_mpf
+/if ID は正しい？
+/else
+/stop E_ID
+/end
+/if p_blk が0？
+/else
+/stop E_PAR
+/end
+/if tmout が-1以上？
+/else
+/stop E_PAR
+/end
+/if 空きメモリ・ブロックが存在する？
+先頭のメモリ・ブロックをメモリ・ブロック・キューから外す
+r1 の指し示すアドレスにメモリ・ブロックの先頭アドレスを格納する
+/else
+/if TMO_POL?
+/stop E_TMOUT
+/else
+固定長メモリ・プール情報ブロックから固定長メモリ・プール属性をロード
+/if TA_TFIFO ?
+_delete_rdyque
+待ちキューの最後尾にタスクをつなぐ
+/else
+_que_search
+/end
+/if TMO_FEVR ?
+/else
+タイマ・キューに自準タスクをつなぐ
+/end
+r1 をスタックに積む
+/define _Scheduler
+r1をスタックからロード
+リターン・パラメータをCTCB からロード
+/stop _ServiceCallExit
+/end
+/end
+/stop E_OK

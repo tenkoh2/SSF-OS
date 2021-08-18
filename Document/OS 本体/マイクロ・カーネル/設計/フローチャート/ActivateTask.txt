@@ -1,0 +1,25 @@
+/start ActivateTask
+/if ID は正しい？
+/else
+/end E_OS_ID
+/back
+actcnt の減算
+/if actcnt >= 0
+/else
+return E_OS_LIMIT
+/end
+/back
+タスク状態をReady に更新
+/define _regist_redybuf
+/if 最高優先度よりActivateTask 対象タスクの優先度が高い？
+最高優先度を更新
+スケジュール要求フラグを有効にする
+/else
+/back
+/back
+/if スケジューラ起動NG?
+/else
+/define scheduler
+/end
+/back
+/end return E_OK

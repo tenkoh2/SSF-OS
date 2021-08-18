@@ -1,0 +1,18 @@
+/start SetEvent
+/if ID は正しい？
+/else
+/stop E_OS_ID
+/end
+/if 対象タスクがREADY状態またはWAITING状態？
+/else
+/stop E_OS_STATE
+/end
+/if 対象タスクがWAITING状態？
+/if 待ちビット・パターンとセットするパターンが一致する？
+タスクをREADY状態へ遷移させる
+/else
+/end
+/else
+/end
+イベント・パターンをセット
+/stop E_OK

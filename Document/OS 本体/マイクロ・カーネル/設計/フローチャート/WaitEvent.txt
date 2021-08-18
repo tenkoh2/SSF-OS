@@ -1,0 +1,14 @@
+/start WaitEvent
+/if リソースを占有していない？
+/else
+/stop E_OS_RESOURCE
+/end
+/if 発行コンテキストはタスク？
+/else
+/stop E_OS_CALLEVEL
+/end
+/if ビット・パターンが一致しない？
+発行タスクをWAITING状態へ遷移させる
+/else
+/end
+/stop E_OK

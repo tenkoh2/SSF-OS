@@ -1,0 +1,23 @@
+/start Schedule
+/if 発行コンテキストはISR ではない？
+/else
+/stop E_OS_CALLEVEL
+/end
+/if 発行コンテキストがリソース占有中ではない？
+/else
+/stop E_OS_RESOURCE
+/end
+/if ディスパッチ禁止状態？
+/if インターナル・リソース占有中？
+インターナル・リソース解放処理
+/else
+/end
+/define scheduler
+/if インターナル・リソースを持っている？
+インターナル・リソース獲得処理
+/else
+/end
+/else
+/stop E_OK
+/end
+/stop return E_OK

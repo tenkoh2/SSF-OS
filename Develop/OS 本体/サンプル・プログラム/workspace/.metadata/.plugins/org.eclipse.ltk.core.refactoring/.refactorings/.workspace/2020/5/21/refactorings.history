@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="リソース &apos;SSF-OS Sample Project&apos; を削除" deleteContents="false" description="リソース &apos;SSF-OS Sample Project&apos; を削除" element1="/SSF-OS Sample Project" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1589861376124"/>
+</session>

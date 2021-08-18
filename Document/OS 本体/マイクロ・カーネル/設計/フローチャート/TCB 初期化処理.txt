@@ -1,0 +1,12 @@
+/start TCB 初期化処理 (引数：タスクID, AppMode)
+起動カウントを初期化
+起動時優先度を初期化
+所有リソースを0初期化
+/if アプリケーション・モードは合致する？
+/define _regist_readybuf (引数優先度)
+タスク状態をReady に初期化
+起動カウントをデクリメント
+/else
+タスク状態をDormant に初期化
+/back
+/end return

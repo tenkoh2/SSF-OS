@@ -1,0 +1,24 @@
+/start unl_mtx
+/if ID は正しい？
+/else
+/stop E_ID
+/end
+/if ミューテックスをロックしている？
+/else
+/stop E_ILUSE
+/end
+/if 待ちキューに準タスクがない？
+/else
+待ちキューの先頭タスクを待ちキューから外す
+/if 待ちキューが空になった？
+キュートップを0にする
+/else
+キュートップ更新
+/end
+/define _regist_readyqueue
+スケジュール・フラグを立てる
+/end
+ミューテックスのアンロック処理
+準タスクの現在優先度をベース優先度に変更
+/define 優先度変更処理
+/stop E_OK

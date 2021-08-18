@@ -1,0 +1,14 @@
+13:04:57 **** インクリメンタル・ビルド of configuration Debug for project SSF-OS Sample Project ****
+make all 
+'Building target: SSF-OS Sample Project'
+'Invoking: Cross GCC Linker'
+arm-linux-gnueabihf-gcc -L../../../../繝槭う繧ｯ繝ｭ繝ｻ繧ｫ繝ｼ繝阪Ν/obj -L../../../../繝ｦ繝ｼ繧ｶ繝ｻ繧ｪ繧ｦ繝ｳ繝ｻ繧ｳ繝ｼ繝?繧｣繝ｳ繧ｰ驛ｨ/obj -L../../../../繧ｵ繝ｳ繝励Ν繝ｻ繝励Ο繧ｰ繝ｩ繝?/conf -L"../.\" -o "SSF-OS Sample Project"  ./src/SSF-OS_Sample_Project.o   -llibfos.a -llibusr.a
+arm-linux-gnueabihf-gcc: error: Sample: No such file or directory
+arm-linux-gnueabihf-gcc: error: Project  ./src/SSF-OS_Sample_Project.o   -llibfos.a -llibusr.a: No such file or directory
+arm-linux-gnueabihf-gcc: fatal error: no input files
+compilation terminated.
+make: *** [SSF-OS Sample Project] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+
+13:04:58 ビルドに失敗しました。1 errors, 0 warnings. (経過 718ms)
+

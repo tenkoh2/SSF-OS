@@ -1,0 +1,24 @@
+/start twai_sem
+資源数をロード
+/if 資源数が0？
+/if TMO_POL？
+/stop return E_TMOUT
+/else
+/end
+セマフォ属性をロード
+/if セマフォ属性がTA_TFIFO？
+待ちキューの最後尾に自準タスクをつなぐ
+/else
+/define _que_search
+/end
+/else
+資源数をデクリメント
+/stop return E_OK
+/end
+/if TMO_FEVR？
+/else
+タイマ・キューに自準タスクをつなぐ
+/end
+/define _Scheduler
+u4_ctcb_rtnprm をロード
+/stop _ServiceCallExit

@@ -1,0 +1,46 @@
+/start IncrementCounter
+/if ID は正しい？
+/else
+/stop E_OS_ID
+/end
+カウンタ管理ブロックのアドレスを生成
+カウンタ値をインクリメント
+/if カウンタ値が振り切れた？
+カウンタ値を0に戻す
+/else
+/end
+アラーム・キューの先頭ID をロード
+/while
+アラーム管理ブロックのアドレスを生成
+アラームの待ちティック数をデクリメント
+/if ティック数が0になった？
+アラーム情報ブロックのアドレスを生成
+アラームのアクションをロード
+/switch
+/case ActivateTask
+/define ActivateTask
+/if E_OS_LIMIT が発生した？
+エラー・フックを呼ぶ
+/else
+/end
+/case SetEvent
+/define SetEvent
+/end
+/if cycle が0ではない？
+待ちティック数をcycle に更新
+/else
+アラームをアラーム・キューから外す
+/if 対象アラームがキューの先頭？
+/if 対象アラームとnext が同じ？
+キューの先頭を0にする
+/else
+キューの先頭をnext にする
+/end
+/else
+/end
+/end
+/else
+/end
+アラーム・キューのnextをロード
+/end アラーム・キューの先頭とnext が等しくない？
+/stop E_OK

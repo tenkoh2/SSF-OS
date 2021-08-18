@@ -1,0 +1,51 @@
+/start chg_pri
+/if タスクID は正しい？
+/else
+/stop E_ID
+/end
+/if tskpri は正しい？
+/else
+/stop E_PAR
+/end
+/if 対象タスクはDORMANT状態ではない？
+/else
+/stop E_OBJ
+/end
+/if ミューテックスをロックしていない？
+/else
+/if ロックしているミューテックスはTA_CEILING属性ではない？
+/else
+/if tskpri が上限優先度以下？
+/else
+/stop E_ILUSE
+/end
+/end
+/end
+/if 対象タスクがW	AITING状態ではない？
+レディ・キューから対象タスクを抜く
+新しい優先度のレディ・キューに対象タスクを登録
+/else
+/while
+/if 待っているのオブジェクトがFIFO待ち？
+/else
+待ちキューから対象タスクを抜く
+新しい挿入先を検索
+新たに待ちキューに対象タスクを挿入
+/end
+/if 待ちオブジェクトがミューテックス？
+/if ミューテックスの属性がTA_INHERIT？
+/if ミューテックスをロックしているタスクの優先度がtskpri より低い？
+/if ミューテックスをロックしているタスクがWAITING状態ではない？
+ミューテックスをロックしているタスクの優先度を変更
+/else
+/end
+/else
+/end
+/else
+/end
+/else
+/end
+/end 対象タスクがWAITING状態
+/end
+対象タスクの優先度を変更
+/stop return E_OK

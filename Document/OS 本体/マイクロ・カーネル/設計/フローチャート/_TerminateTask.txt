@@ -1,0 +1,18 @@
+/start _TerminateTask
+/if インターナル・リソースを獲得している？
+インターナル・リソースの解放処理
+/else
+/end
+actcnt をデクリメント
+/if actcnt が0ではない？
+/else
+タスク状態をSUSPENDED状態へ
+runtsk をクリア
+最高優先度をクリア
+/end
+レディ・バッファの先頭から削除
+/if レディ・バッファが空になった？
+primap をクリア
+/else
+/end
+/stop __Schedulere へ

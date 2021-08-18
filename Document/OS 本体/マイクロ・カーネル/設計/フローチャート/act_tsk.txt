@@ -1,0 +1,26 @@
+/start act_tsk
+/if ID は正しい？
+/else
+/stop E_ID
+/end
+actcnt のインクリメント
+/if actcnt が最大値を超えていない？
+/else
+/stop E_QOVR
+/end
+/if actcnt が1?
+タスク状態をREADY に更新
+/define レディ・キューにタスクをつなぐ
+/else
+/end
+/if 最高優先度よりact_tsk 対象タスクの優先度が高い？
+最高優先度を更新
+スケジュール要求フラグを有効にする
+/else
+/end
+/if スケジューラ起動NG?
+/else
+/define scheduler
+/stop
+/end
+/stop return E_OK
